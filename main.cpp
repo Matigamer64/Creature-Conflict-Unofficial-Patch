@@ -42,6 +42,8 @@ DWORD WINAPI Loop_ENG(LPVOID lpParameter) {
     *(int *)(0x49C044) = std::atoi(ini.GetValue("MULTIPLAYER", "UDP_Port")); //movement
     *(int *)(0x4B2F32) = std::atoi(ini.GetValue("MULTIPLAYER", "TCP_Port")); //chat and other logic
     *(int *)(0x4B2D96) = std::atoi(ini.GetValue("MULTIPLAYER", "TCP_Port")); //server list
+    memset((void*)0x4F2A59, 0x90, 7); //fix @ crash
+    memset((void*)0x4F2A76, 0x90, 5);
     while (true) {
         Sleep(50);
         *(float*)(0x21F5AA8) = (*(float*)(0x12B4C60))/(*(float*)(0x12B4C64)); //display aspect ratio fix on resolution change
