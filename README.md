@@ -1,7 +1,7 @@
 # Creature Conflict Unofficial Patch
 
 ## Featured fixes
-* Fixed multiple softlocks
+* Fixed multiple softlocks and crashes
 * Added keybind to hide hud, binded to `H` key
 * Added option make AI turns in singleplayer faster
 * Removed the code that locked resolutions with certain aspect ratio from showing up 
