@@ -1,4 +1,5 @@
 # Creature Conflict Unofficial Patch
+Supported exe versions: English 1.1 RELOADED
 
 ## Featured fixes
 * Fixed multiple softlocks and crashes
