@@ -79,6 +79,7 @@ void HIDE_HUD() {
 void LOOP_EN(bool Faster_Turn_Skips) {
     while (true) {
         Sleep(50);
+        *(char *)(0x10BDA84) = 115; //Attempt to disable F10 keybind which causes game crash
         *(float*)(0x21F5AA8) = (*(float*)(0x12B4C60))/(*(float*)(0x12B4C64)); //display aspect ratio fix on resolution change
         if (*(char*)(0x1036CE4)) { //check if game started by checking whether there is atleast one character
             OBJECT_FIXES();
