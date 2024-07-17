@@ -695,16 +695,29 @@ DWORD WINAPI Init(LPVOID lpParameter) {
     CSimpleIniA ini;
     char process_path[256];
     strcat(process_path,".\\save\\");
+    if(ini.LoadFile("ccpatch.ini")) {
+        ini.SetValue("GAME_PARAMETERS", "ThirdPersonFOV", "75");
+        ini.SetValue("GAME_PARAMETERS", "FirstPersonFOV", "75");
+        ini.SetValue("VIDEO", "DisableIntros", "0");
+        ini.SetValue("VIDEO", "DisableMenuVideo", "0");
+        ini.SetValue("VIDEO", "DisableCutsceneBorders", "0");
+        ini.SetValue("MULTIPLAYER", "UDPPort", "18888");
+        ini.SetValue("MULTIPLAYER", "TCPPort", "18889");
+        ini.SetValue("MISC", "FasterTurnSkips", "0");
+        ini.SetValue("MISC", "RelocateSavesToGameDir", "0");
+        ini.SetValue("MISC", "SaveSlot", "-1");
+        ini.SaveFile("ccpatch.ini");
+    }
     ini.LoadFile("ccpatch.ini");
-    REPLACE_CC_PATH(std::atoi(ini.GetValue("MISC", "Relocate_Saves_To_Game_Dir")),process_path);
-    float Third_Person_FOV = std::atof(ini.GetValue("GAME_PARAMETERS", "Third_Person_FOV"));
-    float First_Person_FOV = std::atof(ini.GetValue("GAME_PARAMETERS", "First_Person_FOV"));
+    REPLACE_CC_PATH(std::atoi(ini.GetValue("MISC", "RelocateSavesToGameDir")),process_path);
+    float Third_Person_FOV = std::atof(ini.GetValue("GAME_PARAMETERS", "ThirdPersonFOV"));
+    float First_Person_FOV = std::atof(ini.GetValue("GAME_PARAMETERS", "FirstPersonFOV"));
     float Sniper_Rifle_FOV = (First_Person_FOV-40.0 < 40.0) ? First_Person_FOV:First_Person_FOV-40.0;
-    RENDERING_PATCHES(std::atoi(ini.GetValue("VIDEO", "Disable_Intros")),std::atoi(ini.GetValue("VIDEO", "Disable_Menu_Video")),std::atoi(ini.GetValue("VIDEO", "Disable_Cutscene_Borders")),Third_Person_FOV,First_Person_FOV,Sniper_Rifle_FOV);
-    MULTIPLAYER_PATCHES(std::atoi(ini.GetValue("MULTIPLAYER", "UDP_Port")),std::atoi(ini.GetValue("MULTIPLAYER", "TCP_Port")));
-    MISC_PATCHES(std::atoi(ini.GetValue("MISC", "Save_Slot")),std::atoi(ini.GetValue("MISC", "Faster_Turn_Skips")));
+    RENDERING_PATCHES(std::atoi(ini.GetValue("VIDEO", "DisableIntros")),std::atoi(ini.GetValue("VIDEO", "DisableMenuVideo")),std::atoi(ini.GetValue("VIDEO", "DisableCutsceneBorders")),Third_Person_FOV,First_Person_FOV,Sniper_Rifle_FOV);
+    MULTIPLAYER_PATCHES(std::atoi(ini.GetValue("MULTIPLAYER", "UDPPort")),std::atoi(ini.GetValue("MULTIPLAYER", "TCPPort")));
+    MISC_PATCHES(std::atoi(ini.GetValue("MISC", "SaveSlot")),std::atoi(ini.GetValue("MISC", "FasterTurnSkips")));
     KEYBIND_REMAP();
-    LOOP_EN(std::atoi(ini.GetValue("MISC", "Faster_Turn_Skips")));
+    LOOP_EN(std::atoi(ini.GetValue("MISC", "FasterTurnSkips")));
     return 0;
 }
 
