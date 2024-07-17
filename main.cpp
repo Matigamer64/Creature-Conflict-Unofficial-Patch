@@ -1,5 +1,210 @@
 #include "external/SimpleIni.hpp"
 
+std::map<std::string, char> CC_KEY_CODE = {
+    { "ESC",                    0 },
+    { "F1",                     1 },
+    { "F2",                     2 },
+    { "F3",                     3 },
+    { "F4",                     4 },
+    { "F5",                     5 },
+    { "F6",                     6 },
+    { "F7",                     7 },
+    { "F8",                     8 },
+    { "F9",                     9 },
+    { "F10",                    10 },
+    { "F11",                    11 },
+    { "F12",                    12 },
+    { "PRINT_SCREEN",           13 },
+    { "PRINTSCREEN",            13 },
+    { "PRTSC",                  13 },
+    { "SCROLL_LOCK",            14 },
+    { "SCROLLLOCK",             14 },
+    { "PAUSE",                  15 },
+    { "GRAVE",                  16 },
+    { "`",                      16 },
+    { "1",                      17 },
+    { "2",                      18 },
+    { "3",                      19 },
+    { "4",                      20 },
+    { "5",                      21 },
+    { "6",                      22 },
+    { "7",                      23 },
+    { "8",                      24 },
+    { "9",                      25 },
+    { "0",                      26 },
+    { "MINUS",                  27 },
+    { "-",                      27 },
+    { "EQUAL",                  28 },
+    { "=",                      28 },
+    { "BACKSLASH",              29 },
+    { "BACKSPACE",              30 },
+    { "INSERT",                 31 },
+    { "HOME",                   32 },
+    { "NUMPAD_7",               32 },
+    { "NUMPAD7",                32 },
+    { "NUMPAD_9",               33 },
+    { "NUMPAD9",                33 },
+    { "PAGE_UP",                33 },
+    { "PAGEUP",                 33 },
+    { "PGUP",                   33 },
+    { "NUM_LOCK",               34 },
+    { "NUMLOCK",                34 },
+    { "NUMPAD_SLASH",           35 },
+    { "NUMPADSLASH",            35 },
+    { "NUMPAD_STAR",            36 },
+    { "NUMPADSTAR",             36 },
+    { "NUMPAD_ASTERISK",        36 },
+    { "NUMPADASTERISK",         36 },
+    { "NUMPAD_MINUS",           37 },
+    { "NUMPADMINUS",            37 },
+    { "TAB",                    38 },
+    { "Q",                      39 },
+    { "W",                      40 },
+    { "E",                      41 },
+    { "R",                      42 },
+    { "T",                      43 },
+    { "Y",                      44 },
+    { "U",                      45 },
+    { "I",                      46 },
+    { "O",                      47 },
+    { "P",                      48 },
+    { "BLOCK_BEGIN",            49 },
+    { "BLOCKBEGIN",             49 },
+    { "[",                      49 },
+    { "BLOCK_END",              49 },
+    { "BLOCKEND",               49 },
+    { "]",                      50 },
+    { "ENTER",                  51 },
+    { "DELETE",                 52 },
+    { "DEL",                    52 },
+    { "END",                    53 },
+    { "PAGE_DOWN",              54 },
+    { "PAGEDOWN",               54 },
+    { "PGDN",                   54 },
+    { "NUMPAD_7",               55 },
+    { "NUMPAD7",                55 },
+    { "NUMPAD_8",               56 },
+    { "NUMPAD8",                56 },
+    { "NUMPAD_9",               57 },
+    { "NUMPAD9",                57 },
+    { "NUMPAD_PLUS",            58 },
+    { "NUMPADPLUS",             58 },
+    { "CAPS_LOCK",              59 },
+    { "CAPSLOCK",               59 },
+    { "A",                      60 },
+    { "S",                      61 },
+    { "D",                      62 },
+    { "F",                      63 },
+    { "G",                      64 },
+    { "H",                      65 },
+    { "J",                      66 },
+    { "K",                      67 },
+    { "L",                      68 },
+    { ";",                      69 },
+    { "'",                      70 },
+    { "NUMPAD_4",               71 },
+    { "NUMPAD4",                71 },
+    { "NUMPAD_5",               72 },
+    { "NUMPAD5",                72 },
+    { "NUMPAD_6",               73 },
+    { "NUMPAD6",                73 },
+    { "LEFT_SHIFT",             74 },
+    { "LEFTSHIFT",              74 },
+    { "LSHIFT",                 74 },
+    { "Z",                      75 },
+    { "X",                      76 },
+    { "C",                      77 },
+    { "V",                      78 },
+    { "B",                      79 },
+    { "N",                      80 },
+    { "M",                      81 },
+    { "COMMA",                  82 },
+    { ",",                      82 },
+    { "DOT",                    83 },
+    { ".",                      83 },
+    { "SLASH",                  84 },
+    { "/",                      84 },
+    { "RIGHT_SHIFT",            85 },
+    { "RIGHTSHIFT",             85 },
+    { "RSHIFT",                 85 },
+    { "UP_ARROW",               86 },
+    { "UPARROW",                86 },
+    { "UP",                     86 },
+    { "NUMPAD_1",               87 },
+    { "NUMPAD1",                87 },
+    { "NUMPAD_2",               88 },
+    { "NUMPAD2",                88 },
+    { "NUMPAD_3",               89 },
+    { "NUMPAD3",                89 },
+    { "NUMPAD_ENTER",           90 },
+    { "NUMPADENTER",            90 },
+    { "LEFT_CONTROL",           91 },
+    { "LEFTCONTROL",            91 },
+    { "LEFT_CTRL",              91 },
+    { "LEFTCTRL",               91 },
+    { "LCTRL",                  91 },
+    { "LEFT_WINDOWS_KEY",       92 },
+    { "LEFTWINDOWSKEY",         92 },
+    { "LEFT_ALT",               93 },
+    { "LEFTALT",                93 },
+    { "LALT",                   93 },
+    { "SPACE",                  94 },
+    { "RIGHT_ALT",              95 },
+    { "RIGHTALT",               95 },
+    { "RALT",                   95 },
+    { "RIGHT_WINDOWS_KEY",      96 },
+    { "RIGHTWINDOWSKEY",        96 },
+    { "QUICK_MENU",             97 },
+    { "QUICKMENU",              97 },
+    { "RIGHT_CONTROL",          98 },
+    { "RIGHTCONTROL",           98 },
+    { "RIGHT_CTRL",             98 },
+    { "RIGHTCTRL",              98 },
+    { "RCTRL",                  98 },
+    { "LEFT_ARROW",             99 },
+    { "LEFTARROW",              99 },
+    { "LEFT",                   99 },
+    { "DOWN_ARROW",             100 },
+    { "DOWNARROW",              100 },
+    { "DOWN",                   100 },
+    { "RIGHT_ARROW",            101 },
+    { "RIGHTARROW",             101 },
+    { "RIGHT",                  101 },
+    { "NUMPAD_0",               102 },
+    { "NUMPAD0",                102 },
+    { "NUMPAD_DoT",             103 },
+    { "NUMPAD_DOT",             103 },
+    { "LEFT_MOUSE_BUTTON",      104 },
+    { "LEFTMOUSEBUTTON",        104 },
+    { "LMOUSE",                 104 },
+    { "RIGHT_MOUSE_BUTTON",     105 },
+    { "RIGHTMOUSEBUTTON",       105 },
+    { "RMOUSE",                 105 },
+    { "MIDDLE_MOUSE_BUTTON",    106 },
+    { "MIDDLEMOUSEBUTTON",      106 },
+    { "MMOUSE",                 106 },
+    { "MOUSE_WHEEL_UP",         107 },
+    { "MOUSEWHEELUP",           107 },
+    { "WHEEL_UP",               107 },
+    { "WHEELUP",                107 },
+    { "MOUSE_WHEEL_DOWN",       108 },
+    { "MOUSEWHEELDOWN",         108 },
+    { "WHEEL_DOWN",             108 },
+    { "WHEELDOWN",              108 },
+    { "MOUSE_HORIZONTAL",       109 },
+    { "MOUSEHORIZONTAL",        109 },
+    { "MOUSE_LEFT",             110 },
+    { "MOUSELEFT",              110 },
+    { "MOUSE_RIGHT",            111 },
+    { "MOUSERIGHT",             111 },
+    { "MOUSE_VERTICAL",         112 },
+    { "MOUSEVERTICAL",          112 },
+    { "MOUSE_UP",               113 },
+    { "MOUSEUP",                113 },
+    { "MOUSE_DOWN",             114 },
+    { "MOUSEDOWN",              114 },
+};
+
 int GET_TURN_TIME() {
     return (*(int*)(0x21958D0)) ? *(int*)(*(int*)(0x21958D0)+0xCBB8):0;
 }
@@ -76,10 +281,406 @@ void HIDE_HUD() {
     }
 }
 
+char STRING_TO_CC_KEY_CODE(std::string Key) {
+    if (Key == "") return 115;
+    for (int i=0; i<Key.length(); i++) Key[i] = toupper(Key[i]);
+    if (Key == "ESC") return CC_KEY_CODE[Key];
+    return ((char*)(CC_KEY_CODE[Key])) ? CC_KEY_CODE[Key]:115;
+}
+
+void KEYBIND_REMAP() {
+    Sleep(500);
+    *(char *)(0x10BDA84) = 115; //Attempt to disable F10 keybind which causes game crash
+    CSimpleIniA ini;
+    if(ini.LoadFile("keybindings.ini")) {
+        for(int i = 0; i < 4; i++) {
+            std::string section = "KEYBINDING_";
+            section = section+std::to_string(i+1);
+            switch(i) {
+                case 0:
+                    ini.SetValue(section.c_str(), "GuiUp", "Up_Arrow");
+                    ini.SetValue(section.c_str(), "GuiDown", "Down_Arrow");
+                    ini.SetValue(section.c_str(), "GuiLeft", "Left_Arrow");
+                    ini.SetValue(section.c_str(), "GuiRight", "Right_Arrow");
+                    ini.SetValue(section.c_str(), "GuiNextWidget", "Tab");
+                    ini.SetValue(section.c_str(), "GuiPageUp", "PAGE_UP");
+                    ini.SetValue(section.c_str(), "GuiPageDown", "PAGE_DOWN");
+                    ini.SetValue(section.c_str(), "GuiHome", "Home");
+                    ini.SetValue(section.c_str(), "GuiEnd", "End");
+                    ini.SetValue(section.c_str(), "GuiOK", "Enter");
+                    ini.SetValue(section.c_str(), "GuiBack", "Esc");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingDelete", "Delete");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingNextAlliance", "Enter");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingNextAdvantage", "Enter");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingTeamStatistics", "Space");
+                    ini.SetValue(section.c_str(), "TeamEditingDelete", "Delete");
+                    ini.SetValue(section.c_str(), "TeamEditingInsert", "Insert");
+                    ini.SetValue(section.c_str(), "ButtonActivate", "Enter");
+                    ini.SetValue(section.c_str(), "ListBoxUp", "W");
+                    ini.SetValue(section.c_str(), "ListBoxDown", "S");
+                    ini.SetValue(section.c_str(), "WeaponListUp", "Up_Arrow");
+                    ini.SetValue(section.c_str(), "WeaponListDown", "Down_Arrow");
+                    ini.SetValue(section.c_str(), "WeaponListLeft", "Left_Arrow");
+                    ini.SetValue(section.c_str(), "WeaponListRight", "Right_Arrow");
+                    ini.SetValue(section.c_str(), "SettingsSliderIncrement", "Equal");
+                    ini.SetValue(section.c_str(), "SettingsSliderDecrement", "Minus");
+                    ini.SetValue(section.c_str(), "InventoryOpen", "RMouse");
+                    ini.SetValue(section.c_str(), "InventoryWeaponInformation", "Space");
+                    ini.SetValue(section.c_str(), "InventoryGoNextRow", "BlockBegin");
+                    ini.SetValue(section.c_str(), "InventoryGoNextColumn", "BlockEnd");
+                    ini.SetValue(section.c_str(), "InventoryGoRowPistol", "F1");
+                    ini.SetValue(section.c_str(), "InventoryGoRowRifle", "F2");
+                    ini.SetValue(section.c_str(), "InventoryGoRowCannon", "F3");
+                    ini.SetValue(section.c_str(), "InventoryGoRowGrenade", "F4");
+                    ini.SetValue(section.c_str(), "InventoryGoRowMine", "F5");
+                    ini.SetValue(section.c_str(), "InventoryGoRowBonus1", "F6");
+                    ini.SetValue(section.c_str(), "InventoryGoRowBonus2", "F7");
+                    ini.SetValue(section.c_str(), "InventoryGoRowHandy", "F8");
+                    ini.SetValue(section.c_str(), "ShopBuyWeapon", "Equal");
+                    ini.SetValue(section.c_str(), "ShopRemoveWeapon", "Delete");
+                    ini.SetValue(section.c_str(), "InGameMenuOpen", "Esc");
+                    ini.SetValue(section.c_str(), "GamePlaceCharacter", "Enter");
+                    ini.SetValue(section.c_str(), "GameForward", "W");
+                    ini.SetValue(section.c_str(), "GameBackward", "S");
+                    ini.SetValue(section.c_str(), "GameStrafeLeft", "A");
+                    ini.SetValue(section.c_str(), "GameStrafeRight", "D");
+                    ini.SetValue(section.c_str(), "GameRotateLeft", "Mouse_Left");
+                    ini.SetValue(section.c_str(), "GameRotateRight", "Mouse_Right");
+                    ini.SetValue(section.c_str(), "GameJump", "Space");
+                    ini.SetValue(section.c_str(), "GameShot", "Enter");
+                    ini.SetValue(section.c_str(), "GameUseAbility", "Enter");
+                    ini.SetValue(section.c_str(), "GameChangeCamera", "R");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCamera", "E");
+                    ini.SetValue(section.c_str(), "GameBulletCamera", "F");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraUp", "Mouse_Up");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraDown", "Mouse_Down");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraLeft", "Mouse_Left");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraRight", "Mouse_Right");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraBirdsEye", "MMouse");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraUp", "Mouse_Down");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraDown", "Mouse_Up");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraLeft", "Mouse_Left");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraRight", "Mouse_Right");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraZoomIn", "W");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraZoomOut", "S");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousCharacter", "Q");
+                    ini.SetValue(section.c_str(), "GameSelectNextCharacter", "Tab");
+                    ini.SetValue(section.c_str(), "GameSelectCharacter", "Enter");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousTeleport", "Q");
+                    ini.SetValue(section.c_str(), "GameSelectNextTeleport", "Tab");
+                    ini.SetValue(section.c_str(), "GameSelectTeleport", "Enter");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousPowerUp", "Q");
+                    ini.SetValue(section.c_str(), "GameSelectNextPowerUp", "Tab");
+                    ini.SetValue(section.c_str(), "GameSelectPowerUp", "Enter");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousGravestone", "Q");
+                    ini.SetValue(section.c_str(), "GameSelectNextGravestone", "Tab");
+                    ini.SetValue(section.c_str(), "GameSelectGravestone", "Enter");
+                    ini.SetValue(section.c_str(), "GameBulletControlUp", "W");
+                    ini.SetValue(section.c_str(), "GameBulletControlDown", "S");
+                    ini.SetValue(section.c_str(), "GameBulletControlLeft", "A");
+                    ini.SetValue(section.c_str(), "GameBulletControlRight", "D");
+                    ini.SetValue(section.c_str(), "GameTimer1", "1");
+                    ini.SetValue(section.c_str(), "GameTimer2", "2");
+                    ini.SetValue(section.c_str(), "GameTimer3", "3");
+                    ini.SetValue(section.c_str(), "GameTimer4", "4");
+                    ini.SetValue(section.c_str(), "GameTimer5", "5");
+                    ini.SetValue(section.c_str(), "GameTimer6", "6");
+                    ini.SetValue(section.c_str(), "GameTimerPrevious", "Down_Arrow");
+                    ini.SetValue(section.c_str(), "GameTimerNext", "Up_Arrow");
+                    ini.SetValue(section.c_str(), "GameSkipTurn", "X");
+                    ini.SetValue(section.c_str(), "GameToggleJetPack", "J");
+                break;
+                case 1:
+                    ini.SetValue(section.c_str(), "GuiUp", "");
+                    ini.SetValue(section.c_str(), "GuiDown", "");
+                    ini.SetValue(section.c_str(), "GuiLeft", "");
+                    ini.SetValue(section.c_str(), "GuiRight", "");
+                    ini.SetValue(section.c_str(), "GuiNextWidget", "");
+                    ini.SetValue(section.c_str(), "GuiPageUp", "");
+                    ini.SetValue(section.c_str(), "GuiPageDown", "");
+                    ini.SetValue(section.c_str(), "GuiHome", "");
+                    ini.SetValue(section.c_str(), "GuiEnd", "");
+                    ini.SetValue(section.c_str(), "GuiOK", "");
+                    ini.SetValue(section.c_str(), "GuiBack", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingDelete", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingNextAlliance", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingNextAdvantage", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingTeamStatistics", "");
+                    ini.SetValue(section.c_str(), "TeamEditingDelete", "");
+                    ini.SetValue(section.c_str(), "TeamEditingInsert", "");
+                    ini.SetValue(section.c_str(), "ButtonActivate", "");
+                    ini.SetValue(section.c_str(), "ListBoxUp", "");
+                    ini.SetValue(section.c_str(), "ListBoxDown", "");
+                    ini.SetValue(section.c_str(), "WeaponListUp", "");
+                    ini.SetValue(section.c_str(), "WeaponListDown", "");
+                    ini.SetValue(section.c_str(), "WeaponListLeft", "");
+                    ini.SetValue(section.c_str(), "WeaponListRight", "");
+                    ini.SetValue(section.c_str(), "SettingsSliderIncrement", "");
+                    ini.SetValue(section.c_str(), "SettingsSliderDecrement", "");
+                    ini.SetValue(section.c_str(), "InventoryOpen", "Insert");
+                    ini.SetValue(section.c_str(), "InventoryWeaponInformation", "");
+                    ini.SetValue(section.c_str(), "InventoryGoNextRow", "");
+                    ini.SetValue(section.c_str(), "InventoryGoNextColumn", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowPistol", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowRifle", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowCannon", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowGrenade", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowMine", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowBonus1", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowBonus2", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowHandy", "");
+                    ini.SetValue(section.c_str(), "ShopBuyWeapon", "");
+                    ini.SetValue(section.c_str(), "ShopRemoveWeapon", "");
+                    ini.SetValue(section.c_str(), "InGameMenuOpen", "");
+                    ini.SetValue(section.c_str(), "GamePlaceCharacter", "LMouse");
+                    ini.SetValue(section.c_str(), "GameForward", "");
+                    ini.SetValue(section.c_str(), "GameBackward", "");
+                    ini.SetValue(section.c_str(), "GameStrafeLeft", "");
+                    ini.SetValue(section.c_str(), "GameStrafeRight", "");
+                    ini.SetValue(section.c_str(), "GameRotateLeft", "");
+                    ini.SetValue(section.c_str(), "GameRotateRight", "");
+                    ini.SetValue(section.c_str(), "GameJump", "Left_Ctrl");
+                    ini.SetValue(section.c_str(), "GameShot", "LMouse");
+                    ini.SetValue(section.c_str(), "GameUseAbility", "LMouse");
+                    ini.SetValue(section.c_str(), "GameChangeCamera", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCamera", "");
+                    ini.SetValue(section.c_str(), "GameBulletCamera", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraUp", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraDown", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraLeft", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraRight", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraBirdsEye", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraUp", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraDown", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraLeft", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraRight", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraZoomIn", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraZoomOut", "");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousCharacter", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextCharacter", "");
+                    ini.SetValue(section.c_str(), "GameSelectCharacter", "LMouse");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousTeleport", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextTeleport", "");
+                    ini.SetValue(section.c_str(), "GameSelectTeleport", "LMouse");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousPowerUp", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextPowerUp", "");
+                    ini.SetValue(section.c_str(), "GameSelectPowerUp", "LMouse");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousGravestone", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextGravestone", "");
+                    ini.SetValue(section.c_str(), "GameSelectGravestone", "LMouse");
+                    ini.SetValue(section.c_str(), "GameBulletControlUp", "Mouse_Up");
+                    ini.SetValue(section.c_str(), "GameBulletControlDown", "Mouse_Down");
+                    ini.SetValue(section.c_str(), "GameBulletControlLeft", "Mouse_Left");
+                    ini.SetValue(section.c_str(), "GameBulletControlRight", "Mouse_Right");
+                    ini.SetValue(section.c_str(), "GameTimer1", "");
+                    ini.SetValue(section.c_str(), "GameTimer2", "");
+                    ini.SetValue(section.c_str(), "GameTimer3", "");
+                    ini.SetValue(section.c_str(), "GameTimer4", "");
+                    ini.SetValue(section.c_str(), "GameTimer5", "");
+                    ini.SetValue(section.c_str(), "GameTimer6", "");
+                    ini.SetValue(section.c_str(), "GameTimerPrevious", "");
+                    ini.SetValue(section.c_str(), "GameTimerNext", "");
+                    ini.SetValue(section.c_str(), "GameSkipTurn", "");
+                    ini.SetValue(section.c_str(), "GameToggleJetPack", "");
+                break;
+                case 2:
+                    ini.SetValue(section.c_str(), "GuiUp", "");
+                    ini.SetValue(section.c_str(), "GuiDown", "");
+                    ini.SetValue(section.c_str(), "GuiLeft", "");
+                    ini.SetValue(section.c_str(), "GuiRight", "");
+                    ini.SetValue(section.c_str(), "GuiNextWidget", "");
+                    ini.SetValue(section.c_str(), "GuiPageUp", "");
+                    ini.SetValue(section.c_str(), "GuiPageDown", "");
+                    ini.SetValue(section.c_str(), "GuiHome", "");
+                    ini.SetValue(section.c_str(), "GuiEnd", "");
+                    ini.SetValue(section.c_str(), "GuiOK", "");
+                    ini.SetValue(section.c_str(), "GuiBack", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingDelete", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingNextAlliance", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingNextAdvantage", "");
+                    ini.SetValue(section.c_str(), "MultiplayerBriefingTeamStatistics", "");
+                    ini.SetValue(section.c_str(), "TeamEditingDelete", "");
+                    ini.SetValue(section.c_str(), "TeamEditingInsert", "");
+                    ini.SetValue(section.c_str(), "ButtonActivate", "");
+                    ini.SetValue(section.c_str(), "ListBoxUp", "");
+                    ini.SetValue(section.c_str(), "ListBoxDown", "");
+                    ini.SetValue(section.c_str(), "WeaponListUp", "");
+                    ini.SetValue(section.c_str(), "WeaponListDown", "");
+                    ini.SetValue(section.c_str(), "WeaponListLeft", "");
+                    ini.SetValue(section.c_str(), "WeaponListRight", "");
+                    ini.SetValue(section.c_str(), "SettingsSliderIncrement", "");
+                    ini.SetValue(section.c_str(), "SettingsSliderDecrement", "");
+                    ini.SetValue(section.c_str(), "InventoryOpen", "");
+                    ini.SetValue(section.c_str(), "InventoryWeaponInformation", "");
+                    ini.SetValue(section.c_str(), "InventoryGoNextRow", "");
+                    ini.SetValue(section.c_str(), "InventoryGoNextColumn", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowPistol", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowRifle", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowCannon", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowGrenade", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowMine", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowBonus1", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowBonus2", "");
+                    ini.SetValue(section.c_str(), "InventoryGoRowHandy", "");
+                    ini.SetValue(section.c_str(), "ShopBuyWeapon", "");
+                    ini.SetValue(section.c_str(), "ShopRemoveWeapon", "");
+                    ini.SetValue(section.c_str(), "InGameMenuOpen", "");
+                    ini.SetValue(section.c_str(), "GamePlaceCharacter", "");
+                    ini.SetValue(section.c_str(), "GameForward", "");
+                    ini.SetValue(section.c_str(), "GameBackward", "");
+                    ini.SetValue(section.c_str(), "GameStrafeLeft", "");
+                    ini.SetValue(section.c_str(), "GameStrafeRight", "");
+                    ini.SetValue(section.c_str(), "GameRotateLeft", "");
+                    ini.SetValue(section.c_str(), "GameRotateRight", "");
+                    ini.SetValue(section.c_str(), "GameJump", "");
+                    ini.SetValue(section.c_str(), "GameShot", "");
+                    ini.SetValue(section.c_str(), "GameUseAbility", "");
+                    ini.SetValue(section.c_str(), "GameChangeCamera", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCamera", "");
+                    ini.SetValue(section.c_str(), "GameBulletCamera", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraUp", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraDown", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraLeft", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraRight", "");
+                    ini.SetValue(section.c_str(), "GameThirdPersonCameraBirdsEye", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraUp", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraDown", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraLeft", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraRight", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraZoomIn", "");
+                    ini.SetValue(section.c_str(), "GamePlanetCameraZoomOut", "");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousCharacter", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextCharacter", "");
+                    ini.SetValue(section.c_str(), "GameSelectCharacter", "");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousTeleport", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextTeleport", "");
+                    ini.SetValue(section.c_str(), "GameSelectTeleport", "");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousPowerUp", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextPowerUp", "");
+                    ini.SetValue(section.c_str(), "GameSelectPowerUp", "");
+                    ini.SetValue(section.c_str(), "GameSelectPreviousGravestone", "");
+                    ini.SetValue(section.c_str(), "GameSelectNextGravestone", "");
+                    ini.SetValue(section.c_str(), "GameSelectGravestone", "");
+                    ini.SetValue(section.c_str(), "GameBulletControlUp", "");
+                    ini.SetValue(section.c_str(), "GameBulletControlDown", "");
+                    ini.SetValue(section.c_str(), "GameBulletControlLeft", "");
+                    ini.SetValue(section.c_str(), "GameBulletControlRight", "");
+                    ini.SetValue(section.c_str(), "GameTimer1", "");
+                    ini.SetValue(section.c_str(), "GameTimer2", "");
+                    ini.SetValue(section.c_str(), "GameTimer3", "");
+                    ini.SetValue(section.c_str(), "GameTimer4", "");
+                    ini.SetValue(section.c_str(), "GameTimer5", "");
+                    ini.SetValue(section.c_str(), "GameTimer6", "");
+                    ini.SetValue(section.c_str(), "GameTimerPrevious", "");
+                    ini.SetValue(section.c_str(), "GameTimerNext", "");
+                    ini.SetValue(section.c_str(), "GameSkipTurn", "");
+                    ini.SetValue(section.c_str(), "GameToggleJetPack", "");
+                break;
+            }
+        }
+        ini.SaveFile("keybindings.ini");
+        ini.LoadFile("keybindings.ini");
+    }
+    for(int i = 0; i < 2; i++) {
+        std::string section = "KEYBINDING_";
+        section = section+std::to_string(i+1);
+        *(char *)(0x10BCFEC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiUp")));
+        *(char *)(0x10BCFF8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiDown")));
+        *(char *)(0x10BD004+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiLeft")));
+        *(char *)(0x10BD010+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiRight")));
+        *(char *)(0x10BD01C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiNextWidget")));
+        *(char *)(0x10BD028+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiPageUp")));
+        *(char *)(0x10BD034+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiPageDown")));
+        *(char *)(0x10BD040+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiHome")));
+        *(char *)(0x10BD04C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiEnd")));
+        *(char *)(0x10BD058+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiOK")));
+        *(char *)(0x10BD064+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiBack")));
+        *(char *)(0x10BD070+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingDelete")));
+        *(char *)(0x10BD07C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingNextAlliance")));
+        *(char *)(0x10BD088+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingNextAdvantage")));
+        *(char *)(0x10BD094+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingTeamStatistics")));
+        *(char *)(0x10BD0A0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "TeamEditingDelete")));
+        *(char *)(0x10BD0AC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "TeamEditingInsert")));
+        *(char *)(0x10BD0E8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ButtonActivate")));
+        *(char *)(0x10BD0F4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ListBoxUp")));
+        *(char *)(0x10BD100+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ListBoxDown")));
+        *(char *)(0x10BD10C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListUp")));
+        *(char *)(0x10BD118+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListDown")));
+        *(char *)(0x10BD124+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListLeft")));
+        *(char *)(0x10BD130+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListRight")));
+        *(char *)(0x10BD13C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "SettingsSliderIncrement")));
+        *(char *)(0x10BD148+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "SettingsSliderDecrement")));
+        *(char *)(0x10BD154+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryOpen")));
+        *(char *)(0x10BD160+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryWeaponInformation")));
+        *(char *)(0x10BD16C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoNextRow")));
+        *(char *)(0x10BD178+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoNextColumn")));
+        *(char *)(0x10BD184+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowPistol")));
+        *(char *)(0x10BD190+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowRifle")));
+        *(char *)(0x10BD19C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowCannon")));
+        *(char *)(0x10BD1A8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowGrenade")));
+        *(char *)(0x10BD1B4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowMine")));
+        *(char *)(0x10BD1C0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowBonus1")));
+        *(char *)(0x10BD1CC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowBonus2")));
+        *(char *)(0x10BD1D8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowHandy")));
+        *(char *)(0x10BD1F0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ShopBuyWeapon")));
+        *(char *)(0x10BD1FC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ShopRemoveWeapon")));
+        *(char *)(0x10BD220+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InGameMenuOpen")));
+        *(char *)(0x10BD22C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlaceCharacter")));
+        *(char *)(0x10BD238+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameForward")));
+        *(char *)(0x10BD244+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBackward")));
+        *(char *)(0x10BD250+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameStrafeLeft")));
+        *(char *)(0x10BD25C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameStrafeRight")));
+        *(char *)(0x10BD268+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameRotateLeft")));
+        *(char *)(0x10BD274+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameRotateRight")));
+        *(char *)(0x10BD280+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameJump")));
+        *(char *)(0x10BD28C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameShot")));
+        *(char *)(0x10BD298+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameUseAbility")));
+        *(char *)(0x10BD2A4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameChangeCamera")));
+        *(char *)(0x10BD2B0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCamera")));
+        *(char *)(0x10BD2BC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletCamera")));
+        *(char *)(0x10BD2C8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraUp")));
+        *(char *)(0x10BD2D4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraDown")));
+        *(char *)(0x10BD2E0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraLeft")));
+        *(char *)(0x10BD2EC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraRight")));
+        *(char *)(0x10BD2F8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraBirdsEye")));
+        *(char *)(0x10BD304+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraUp")));
+        *(char *)(0x10BD310+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraDown")));
+        *(char *)(0x10BD31C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraLeft")));
+        *(char *)(0x10BD328+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraRight")));
+        *(char *)(0x10BD334+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraZoomIn")));
+        *(char *)(0x10BD340+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraZoomOut")));
+        *(char *)(0x10BD34C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousCharacter")));
+        *(char *)(0x10BD358+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextCharacter")));
+        *(char *)(0x10BD364+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectCharacter")));
+        *(char *)(0x10BD370+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousTeleport")));
+        *(char *)(0x10BD37C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextTeleport")));
+        *(char *)(0x10BD388+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectTeleport")));
+        *(char *)(0x10BD394+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousPowerUp")));
+        *(char *)(0x10BD3A0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextPowerUp")));
+        *(char *)(0x10BD3AC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPowerUp")));
+        *(char *)(0x10BD3B8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousGravestone")));
+        *(char *)(0x10BD3C4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextGravestone")));
+        *(char *)(0x10BD3D0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectGravestone")));
+        *(char *)(0x10BD3DC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlUp")));
+        *(char *)(0x10BD3E8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlDown")));
+        *(char *)(0x10BD3F4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlLeft")));
+        *(char *)(0x10BD400+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlRight")));
+        *(char *)(0x10BD40C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer1")));
+        *(char *)(0x10BD418+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer2")));
+        *(char *)(0x10BD424+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer3")));
+        *(char *)(0x10BD430+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer4")));
+        *(char *)(0x10BD43C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer5")));
+        *(char *)(0x10BD448+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer6")));
+        *(char *)(0x10BD454+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimerPrevious")));
+        *(char *)(0x10BD460+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimerNext")));
+        *(char *)(0x10BD46C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSkipTurn")));
+        *(char *)(0x10BD478+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameToggleJetPack")));
+    }
+}
+
 void LOOP_EN(bool Faster_Turn_Skips) {
     while (true) {
         Sleep(50);
-        *(char *)(0x10BDA84) = 115; //Attempt to disable F10 keybind which causes game crash
         *(float*)(0x21F5AA8) = (*(float*)(0x12B4C60))/(*(float*)(0x12B4C64)); //display aspect ratio fix on resolution change
         if (*(char*)(0x1036CE4)) { //check if game started by checking whether there is atleast one character
             OBJECT_FIXES();
@@ -102,6 +703,7 @@ DWORD WINAPI Init(LPVOID lpParameter) {
     RENDERING_PATCHES(std::atoi(ini.GetValue("VIDEO", "Disable_Intros")),std::atoi(ini.GetValue("VIDEO", "Disable_Menu_Video")),std::atoi(ini.GetValue("VIDEO", "Disable_Cutscene_Borders")),Third_Person_FOV,First_Person_FOV,Sniper_Rifle_FOV);
     MULTIPLAYER_PATCHES(std::atoi(ini.GetValue("MULTIPLAYER", "UDP_Port")),std::atoi(ini.GetValue("MULTIPLAYER", "TCP_Port")));
     MISC_PATCHES(std::atoi(ini.GetValue("MISC", "Save_Slot")),std::atoi(ini.GetValue("MISC", "Faster_Turn_Skips")));
+    KEYBIND_REMAP();
     LOOP_EN(std::atoi(ini.GetValue("MISC", "Faster_Turn_Skips")));
     return 0;
 }
