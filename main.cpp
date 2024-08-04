@@ -581,100 +581,41 @@ void KEYBIND_REMAP() {
         ini.SaveFile("keybindings.ini");
         ini.LoadFile("keybindings.ini");
     }
-    for(int i = 0; i < 2; i++) {
-        std::string section = "KEYBINDING_";
-        section = section+std::to_string(i+1);
-        *(char *)(0x10BCFEC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiUp")));
-        *(char *)(0x10BCFF8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiDown")));
-        *(char *)(0x10BD004+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiLeft")));
-        *(char *)(0x10BD010+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiRight")));
-        *(char *)(0x10BD01C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiNextWidget")));
-        *(char *)(0x10BD028+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiPageUp")));
-        *(char *)(0x10BD034+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiPageDown")));
-        *(char *)(0x10BD040+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiHome")));
-        *(char *)(0x10BD04C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiEnd")));
-        *(char *)(0x10BD058+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiOK")));
-        *(char *)(0x10BD064+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GuiBack")));
-        *(char *)(0x10BD070+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingDelete")));
-        *(char *)(0x10BD07C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingNextAlliance")));
-        *(char *)(0x10BD088+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingNextAdvantage")));
-        *(char *)(0x10BD094+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "MultiplayerBriefingTeamStatistics")));
-        *(char *)(0x10BD0A0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "TeamEditingDelete")));
-        *(char *)(0x10BD0AC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "TeamEditingInsert")));
-        *(char *)(0x10BD0E8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ButtonActivate")));
-        *(char *)(0x10BD0F4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ListBoxUp")));
-        *(char *)(0x10BD100+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ListBoxDown")));
-        *(char *)(0x10BD10C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListUp")));
-        *(char *)(0x10BD118+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListDown")));
-        *(char *)(0x10BD124+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListLeft")));
-        *(char *)(0x10BD130+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "WeaponListRight")));
-        *(char *)(0x10BD13C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "SettingsSliderIncrement")));
-        *(char *)(0x10BD148+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "SettingsSliderDecrement")));
-        *(char *)(0x10BD154+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryOpen")));
-        *(char *)(0x10BD160+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryWeaponInformation")));
-        *(char *)(0x10BD16C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoNextRow")));
-        *(char *)(0x10BD178+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoNextColumn")));
-        *(char *)(0x10BD184+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowPistol")));
-        *(char *)(0x10BD190+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowRifle")));
-        *(char *)(0x10BD19C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowCannon")));
-        *(char *)(0x10BD1A8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowGrenade")));
-        *(char *)(0x10BD1B4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowMine")));
-        *(char *)(0x10BD1C0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowBonus1")));
-        *(char *)(0x10BD1CC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowBonus2")));
-        *(char *)(0x10BD1D8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InventoryGoRowHandy")));
-        *(char *)(0x10BD1F0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ShopBuyWeapon")));
-        *(char *)(0x10BD1FC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "ShopRemoveWeapon")));
-        *(char *)(0x10BD220+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "InGameMenuOpen")));
-        *(char *)(0x10BD22C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlaceCharacter")));
-        *(char *)(0x10BD238+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameForward")));
-        *(char *)(0x10BD244+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBackward")));
-        *(char *)(0x10BD250+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameStrafeLeft")));
-        *(char *)(0x10BD25C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameStrafeRight")));
-        *(char *)(0x10BD268+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameRotateLeft")));
-        *(char *)(0x10BD274+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameRotateRight")));
-        *(char *)(0x10BD280+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameJump")));
-        *(char *)(0x10BD28C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameShot")));
-        *(char *)(0x10BD298+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameUseAbility")));
-        *(char *)(0x10BD2A4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameChangeCamera")));
-        *(char *)(0x10BD2B0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCamera")));
-        *(char *)(0x10BD2BC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletCamera")));
-        *(char *)(0x10BD2C8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraUp")));
-        *(char *)(0x10BD2D4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraDown")));
-        *(char *)(0x10BD2E0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraLeft")));
-        *(char *)(0x10BD2EC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraRight")));
-        *(char *)(0x10BD2F8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameThirdPersonCameraBirdsEye")));
-        *(char *)(0x10BD304+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraUp")));
-        *(char *)(0x10BD310+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraDown")));
-        *(char *)(0x10BD31C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraLeft")));
-        *(char *)(0x10BD328+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraRight")));
-        *(char *)(0x10BD334+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraZoomIn")));
-        *(char *)(0x10BD340+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GamePlanetCameraZoomOut")));
-        *(char *)(0x10BD34C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousCharacter")));
-        *(char *)(0x10BD358+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextCharacter")));
-        *(char *)(0x10BD364+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectCharacter")));
-        *(char *)(0x10BD370+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousTeleport")));
-        *(char *)(0x10BD37C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextTeleport")));
-        *(char *)(0x10BD388+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectTeleport")));
-        *(char *)(0x10BD394+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousPowerUp")));
-        *(char *)(0x10BD3A0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextPowerUp")));
-        *(char *)(0x10BD3AC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPowerUp")));
-        *(char *)(0x10BD3B8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectPreviousGravestone")));
-        *(char *)(0x10BD3C4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectNextGravestone")));
-        *(char *)(0x10BD3D0+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSelectGravestone")));
-        *(char *)(0x10BD3DC+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlUp")));
-        *(char *)(0x10BD3E8+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlDown")));
-        *(char *)(0x10BD3F4+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlLeft")));
-        *(char *)(0x10BD400+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameBulletControlRight")));
-        *(char *)(0x10BD40C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer1")));
-        *(char *)(0x10BD418+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer2")));
-        *(char *)(0x10BD424+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer3")));
-        *(char *)(0x10BD430+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer4")));
-        *(char *)(0x10BD43C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer5")));
-        *(char *)(0x10BD448+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimer6")));
-        *(char *)(0x10BD454+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimerPrevious")));
-        *(char *)(0x10BD460+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameTimerNext")));
-        *(char *)(0x10BD46C+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameSkipTurn")));
-        *(char *)(0x10BD478+4*i) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), "GameToggleJetPack")));
+    for(int i = 0; i < 3; i++) {
+        std::string section = "KEYBINDING_"+std::to_string(i+1);
+        switch(i) {
+            case 0:
+                offset = 2;
+            break;
+            case 1:
+                offset = 94;
+            break;
+            case 2:
+                offset = 186;
+            break;
+        }
+        ini.GetAllKeys(section.c_str(),Keys);
+        Keys.sort(CSimpleIniA::Entry::LoadOrder());
+        for (it = Keys.begin(); it != Keys.end(); it++) {
+            switch(it->nOrder) {
+                case 18:
+                case 110:
+                case 202:
+                    offset = offset-4;
+                break;
+                case 39:
+                case 131:
+                case 223:
+                    offset = offset-1;
+                break;
+                case 42:
+                case 134:
+                case 226:
+                    offset = offset-2;
+                break;
+            }
+            *(char *)((0x10BCFEC+4*i)+0xC*(it->nOrder-offset)) = STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), it->pItem)));
+        }
     }
 }
 
