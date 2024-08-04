@@ -415,8 +415,8 @@ void KEYBIND_REMAP() {
                     ini.SetValue(section.c_str(), "WeaponListDown", "");
                     ini.SetValue(section.c_str(), "WeaponListLeft", "");
                     ini.SetValue(section.c_str(), "WeaponListRight", "");
-                    ini.SetValue(section.c_str(), "SettingsSliderIncrement", "");
-                    ini.SetValue(section.c_str(), "SettingsSliderDecrement", "");
+                    ini.SetValue(section.c_str(), "SettingsSliderIncrement", "Wheel_Up");
+                    ini.SetValue(section.c_str(), "SettingsSliderDecrement", "Wheel_Down");
                     ini.SetValue(section.c_str(), "InventoryOpen", "Insert");
                     ini.SetValue(section.c_str(), "InventoryWeaponInformation", "");
                     ini.SetValue(section.c_str(), "InventoryGoNextRow", "");
