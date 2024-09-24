@@ -315,6 +315,18 @@ void VERSION_REPORT() {
     std::cout << "PLATFORM: " << system << std::endl;
 }
 
+void LOG_INIT() {
+    char process_path[256];
+    GetCurrentDirectory(256, process_path);
+    time_t Log_Creation_Time = time(0);
+    std::cout << "--- Welcome to Creature Conflict: The Clan Wars unofficial patch Build date: 20.09.2024 ---" << std::endl;
+    std::cout << "RUNNING DIRECTORY: " << process_path << std::endl;
+    std::cout << "EXECUTABLE SHA256 HASH: " << exe_hash << std::endl;
+    std::cout << "LOG FILE CREATED: " << ctime(&Log_Creation_Time);
+    VERSION_REPORT();
+    std::cout << "--- ---" << std::endl;
+}
+
 void CREATE_PATCH_CONFIG() {
     CSimpleIniA ini;
     if(ini.LoadFile("ccpatch.ini")) {
@@ -704,18 +716,8 @@ void LOOP_PL_RU(bool Faster_Turn_Skips) {
 
 DWORD WINAPI Init(LPVOID lpParameter) {
     CSimpleIniA ini;
-    char process_path[256];
-    GetCurrentDirectory(256, process_path);
     ini.LoadFile("ccpatch.ini");
-    if (std::atoi(ini.GetValue("MISC", "WriteLogFile"))) freopen("debug.txt", "w", stdout);
     if (std::atoi(ini.GetValue("MISC", "ExceptionHandler"))) SetUnhandledExceptionFilter(CustomUnhandledExceptionFilter);
-    time_t Log_Creation_Time = time(0);
-    std::cout << "--- Welcome to Creature Conflict: The Clan Wars unofficial patch Build date: 20.09.2024 ---" << std::endl;
-    std::cout << "RUNNING DIRECTORY: " << process_path << std::endl;
-    std::cout << "EXECUTABLE SHA256 HASH: " << exe_hash << std::endl;
-    std::cout << "LOG FILE CREATED: " << ctime(&Log_Creation_Time);
-    VERSION_REPORT();
-    std::cout << "--- ---" << std::endl;
     float Third_Person_FOV = std::atof(ini.GetValue("GAME_PARAMETERS", "ThirdPersonFOV"));
     float First_Person_FOV = std::atof(ini.GetValue("GAME_PARAMETERS", "FirstPersonFOV"));
     float Sniper_Rifle_FOV = (First_Person_FOV-40.0 < 40.0) ? First_Person_FOV:First_Person_FOV-40.0;
@@ -743,6 +745,8 @@ BOOL APIENTRY DllMain(HMODULE module, DWORD reason, LPVOID lpReserved) {
             exe_hash = picosha2::hash256_hex_string(std::begin(hash), std::end(hash));
             SetProcessDPIAware();
             CREATE_PATCH_CONFIG();
+            if (std::atoi(ini.GetValue("MISC", "WriteLogFile"))) freopen("debug.txt", "w", stdout);
+            LOG_INIT();
             REPLACE_CC_PATH(std::atoi(ini.GetValue("MISC", "RelocateSavesToGameDir")),process_path);
             hThread = CreateThread(nullptr, 0, Init, nullptr, 0, nullptr);
             CloseHandle(hThread);
