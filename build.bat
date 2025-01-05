@@ -1,0 +1,1 @@
+cmake -B Intermediate/Release -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release && cd Intermediate/Release && start /wait cmake --build . && exit
