@@ -322,8 +322,8 @@ void REPLACE_CC_PATH(bool Relocate_Saves_To_Game_Dir) {
         CreateDirectoryA(process_path,0);
         int JumpOverDirFunc = GetPattern("\x68\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x83\xC4\x0C\x85\xC0\x0F\x84\x81", "x????x????xxxxxxxx");
         WriteBuf(*(int*)(GetPattern("\x68\x00\x00\x00\x00\x89\x84\x24\x14", "x????xxxx")+1), process_path, 256);
-        WriteByte(JumpOverDirFunc, 0xE9);
-        WriteInt(JumpOverDirFunc+1, 0x000000BF);
+        WriteValue<char>(JumpOverDirFunc, 0xE9);
+        WriteValue<int>(JumpOverDirFunc+1, 0x000000BF);
     }
 }
 
@@ -340,13 +340,13 @@ void RENDERING_PATCHES(bool Disable_Intros, bool Disable_Menu_Video, bool Disabl
     }
     if (Disable_Cutscene_Borders) {
         std::cout << "Removing cutscene borders..." << std::endl;
-        WriteByte(GetPattern("\x6A\x19\x8B\xCE\xE8\x00\x00\x00\x00\x6A", "xxxxx????x")+1, 1);
+        WriteValue<char>(GetPattern("\x6A\x19\x8B\xCE\xE8\x00\x00\x00\x00\x6A", "xxxxx????x")+1, 1);
     }
     std::cout << "Patching camera fields of view" << std::endl;
     WriteNOP(GetPattern("\x8D\x14\x8D\x00\x00\x00\x00\x8D\x34\x40", "xxxxxxxxxx"), 32); //don't check aspect ratio
-    WriteFloatPointer(GetPattern("\x8B\x15\x00\x00\x00\x00\xEB\x5E", "xx????xx")+2, &Sniper_Rifle_FOV);
-    WriteFloatPointer(GetPattern("\x8B\x0D\x00\x00\x00\x00\x89\x4C\x24\x04\x8B", "xx????xxxxx")+2, &First_Person_FOV);
-    WriteFloatPointer(GetPattern("\x8B\x15\x00\x00\x00\x00\x8B\x0D\x00\x00\x00\x00\x83\x79", "xx????xx????xx")+2, &Third_Person_FOV);
+    WritePointer<float>(GetPattern("\x8B\x15\x00\x00\x00\x00\xEB\x5E", "xx????xx")+2, &Sniper_Rifle_FOV);
+    WritePointer<float>(GetPattern("\x8B\x0D\x00\x00\x00\x00\x89\x4C\x24\x04\x8B", "xx????xxxxx")+2, &First_Person_FOV);
+    WritePointer<float>(GetPattern("\x8B\x15\x00\x00\x00\x00\x8B\x0D\x00\x00\x00\x00\x83\x79", "xx????xx????xx")+2, &Third_Person_FOV);
 }
 
 void MULTIPLAYER_PATCHES() {
@@ -357,12 +357,12 @@ void MULTIPLAYER_PATCHES() {
 
 void GATE_FIXES(int GameLogic, int InGate, int UnitPowerUp, int UnitControlled, int UnitFrozen, int IsAnyoneRabidAmok, int IsAnyoneUsingEquity) {
     if (*(char*)(InGate)) { //check if in gate
-        if (*(int*)(UnitPowerUp+*(int*)(UnitControlled)*0x4A0) == 124) WriteByte(IsAnyoneRabidAmok, 0); //Rabid amok softlock fix
-        if (*(int*)(UnitPowerUp+*(int*)(UnitControlled)*0x4A0) == 110) WriteByte(InGate, 0); //Teleport crash fix related to referencing dead player
-        if (*(char*)(IsAnyoneUsingEquity)) WriteByte(IsAnyoneUsingEquity, 0); //Equity softlock fix
+        if (*(int*)(UnitPowerUp+*(int*)(UnitControlled)*0x4A0) == 124) WriteValue<char>(IsAnyoneRabidAmok, 0); //Rabid amok softlock fix
+        if (*(int*)(UnitPowerUp+*(int*)(UnitControlled)*0x4A0) == 110) WriteValue<char>(InGate, 0); //Teleport crash fix related to referencing dead player
+        if (*(char*)(IsAnyoneUsingEquity)) WriteValue<char>(IsAnyoneUsingEquity, 0); //Equity softlock fix
         if (*(int*)(UnitPowerUp+*(int*)(UnitControlled)*0x4A0) == 123 && GET_TURN_TIME(GameLogic) < 2) { //Gnaw softlock fix
-            WriteByte(UnitFrozen+*(int*)(UnitControlled)*0x4A0, 0);
-            WriteByte(InGate, 0);
+            WriteValue<char>(UnitFrozen+*(int*)(UnitControlled)*0x4A0, 0);
+            WriteValue<char>(InGate, 0);
         }
     }
 }
@@ -375,9 +375,9 @@ void OBJECT_FIXES(int GameLogic, int InGate, int UnitPowerUp, int UnitControlled
             !(*(char*)(*(int*)(ObjectTemplate)+0x100*136+0xD3) == 12)
         )
         std::cout << "Fixing object behaviours..." << std::endl;
-        WriteByte(*(int*)(ObjectTemplate)+0x100*87+0xD6, 11); // Laser Blaster package missing pickup sound
-        WriteByte(*(int*)(ObjectTemplate)+0x100*91+0xD4, 9); // Mine Strike package missing spawn sound
-        WriteByte(*(int*)(ObjectTemplate)+0x100*136+0xD3, 12); // Teleport package missing bounce sound, fixes pickup sound sometimes being wrong
+        WriteValue<char>(*(int*)(ObjectTemplate)+0x100*87+0xD6, 11); // Laser Blaster package missing pickup sound
+        WriteValue<char>(*(int*)(ObjectTemplate)+0x100*91+0xD4, 9); // Mine Strike package missing spawn sound
+        WriteValue<char>(*(int*)(ObjectTemplate)+0x100*136+0xD3, 12); // Teleport package missing bounce sound, fixes pickup sound sometimes being wrong
     }
     GATE_FIXES(GameLogic, InGate, UnitPowerUp, UnitControlled, UnitFrozen, IsAnyoneRabidAmok, IsAnyoneUsingEquity);
 }
@@ -390,22 +390,22 @@ void WEAPON_FIXES(int WeaponTemplate) {
             !(*(char*)(*(int*)(WeaponTemplate)+0x1D0*65+0x31) == 1)
         )
         std::cout << "Fixing weapon behaviours..." << std::endl;
-        WriteByte(*(int*)(WeaponTemplate)+0x1D0*46+0x7B, 3); // ticking briefcase, fix lack of collision with characters
-        WriteByte(*(int*)(WeaponTemplate)+0x1D0*50+0x1AC, 3); // casserole, fix swinging being silent
-        WriteByte(*(int*)(WeaponTemplate)+0x1D0*65+0x31, 1); // ultrasonic grenade, fix the oddity of not being able to change ttl like other grenades
+        WriteValue<char>(*(int*)(WeaponTemplate)+0x1D0*46+0x7B, 3); // ticking briefcase, fix lack of collision with characters
+        WriteValue<char>(*(int*)(WeaponTemplate)+0x1D0*50+0x1AC, 3); // casserole, fix swinging being silent
+        WriteValue<char>(*(int*)(WeaponTemplate)+0x1D0*65+0x31, 1); // ultrasonic grenade, fix the oddity of not being able to change ttl like other grenades
     }
 }
 
 void MISC_PATCHES() {
-    WriteByte(GetPattern("\x0C\xE8\x00\x00\x00\x00\x33\xDB\x53\x6A", "xx????xxxx")+0xA, 2); //flip number to indicate that game loaded patch
+    WriteValue<char>(GetPattern("\x0C\xE8\x00\x00\x00\x00\x33\xDB\x53\x6A", "xx????xxxx")+0xA, 2); //flip number to indicate that game loaded patch
 }
 
 void HIDE_HUD(int HideHud) {
     if (GetAsyncKeyState(0x48) & 0x01) {
         if (*(int*)(HideHud+1) == 0xFFFFDDFB) WriteNOP(HideHud, 5);
         else {
-            WriteByte(HideHud, 0xE8);
-            WriteInt(HideHud+1, 0xFFFFDDFB);
+            WriteValue<char>(HideHud, 0xE8);
+            WriteValue<int>(HideHud+1, 0xFFFFDDFB);
         }
     }
 }
@@ -422,7 +422,7 @@ void KEYBIND_REMAP() {
     CSimpleIniA::TNamesDepend::const_iterator it;
     int keybind = (*(int*)(GetPattern("\xBA\x00\x00\x00\x00\xB3\x01\xEB", "x????xxx")+1))+8;
     std::cout << "Disabling F10 key crash functionality..." << std::endl;
-    WriteByte(keybind+0xA98, 115);
+    WriteValue<char>(keybind+0xA98, 115);
     if(ini.LoadFile("keybindings.ini")) {
         std::cout << "Missing keybind config, creating new one... " << std::endl;
         for(int i = 0; i < 3; i++) {
@@ -547,7 +547,7 @@ void KEYBIND_REMAP() {
                     offset = offset-2;
                 break;
             }
-            WriteByte((keybind+4*i)+0xC*(it->nOrder-offset),STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), it->pItem))));
+            WriteValue<char>((keybind+4*i)+0xC*(it->nOrder-offset),STRING_TO_CC_KEY_CODE(std::string(ini.GetValue(section.c_str(), it->pItem))));
         }
     }
 }
@@ -572,8 +572,8 @@ void LOOP() {
     int HideHud = GetPattern("\x8B\xCE\xE8\x00\x00\x00\x00\x8B\xCE\xE8\x00\x00\x00\x00\x5F\x5E\x83", "xxx????xxx????xxx")+2;
     while (true) {
         Sleep(50);
-        WriteFloat(RenderAspectRatio, (*(float*)(ResolutionX))/(*(float*)(ResolutionY))); //display aspect ratio fix on resolution change
-        WriteFloat(LowCharFramerateAnimDist, (!((*(char *)(GameSaveSettings) >> 3) & 1) & ((*(char *)(GameSaveSettings) >> 4) & 1)) ? 128:64); //change distance from which characters are animated at lower framerate on high settings
+        WriteValue<float>(RenderAspectRatio, (*(float*)(ResolutionX))/(*(float*)(ResolutionY))); //display aspect ratio fix on resolution change
+        WriteValue<float>(LowCharFramerateAnimDist, (!((*(char *)(GameSaveSettings) >> 3) & 1) & ((*(char *)(GameSaveSettings) >> 4) & 1)) ? 128:64); //change distance from which characters are animated at lower framerate on high settings
         if (*(char*)(UnitCount)) { //check if game started by checking whether there is atleast one character
             OBJECT_FIXES(GameLogic, InGate, UnitPowerUp, UnitControlled, UnitFrozen, IsAnyoneRabidAmok, IsAnyoneUsingEquity, ObjectTemplate);
             WEAPON_FIXES(WeaponTemplate);
