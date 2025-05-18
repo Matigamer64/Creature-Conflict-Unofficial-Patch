@@ -277,11 +277,12 @@ void VERSION_REPORT() {
 }
 
 void GET_EXE_HASH() {
-    char executable_path[256], hash[32];
+    char executable_path[256];
     GetModuleFileNameA(NULL, executable_path, 256);
     std::ifstream f(executable_path, std::ios::binary);
-    picosha2::hash256(f, std::begin(hash), std::end(hash));
-    exe_hash = picosha2::hash256_hex_string(std::begin(hash), std::end(hash));
+    std::vector<unsigned char> hash(picosha2::k_digest_size);
+    picosha2::hash256(f, hash.begin(), hash.end());
+    exe_hash = picosha2::bytes_to_hex_string(hash.begin(), hash.end());
 }
 
 void LOG_INIT() {
