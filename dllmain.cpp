@@ -307,6 +307,8 @@ void CREATE_PATCH_CONFIG() {
         ini.SetValue("VIDEO", "DisableIntros", "0");
         ini.SetValue("VIDEO", "DisableMenuVideo", "0");
         ini.SetValue("VIDEO", "DisableCutsceneBorders", "0");
+        ini.SetValue("ACCESIBILITY", "DisableWeaponScreenFlashes", "0");
+        ini.SetValue("ACCESIBILITY", "DisableExplosionScreenShaking", "0");
         ini.SetValue("MISC", "RelocateSavesToGameDir", "0");
         ini.SetValue("MISC", "WriteLogFile", "1");
         ini.SaveFile("ccpatch.ini");
@@ -355,6 +357,19 @@ void MULTIPLAYER_PATCHES() {
     WriteNOP(GetPattern("\x8B\x40\x30\x03\x0A", "xxxxx"), 5);
 }
 
+void DISABLE_SHAKING_EPILEPSY(int WeaponTemplate, bool Disable_Weapon_Screen_Flashes, bool Disable_Explosion_Screen_Shaking)
+{
+    if (Disable_Explosion_Screen_Shaking) {
+        std::cout << "Disabling explosion screen shaking..." << std::endl;
+        for (int i=0; i<0x61; i++) WriteValue<float>(*(int*)(WeaponTemplate)+0x1D0*i+0x48, 0);
+    }
+    if (Disable_Weapon_Screen_Flashes) {
+        std::cout << "Disabling weapon screen flashes..." << std::endl;
+        WriteValue<unsigned int>(*(int*)(WeaponTemplate)+0x4880, -1); //camera
+        WriteValue<unsigned int>(*(int*)(WeaponTemplate)+0x7060, -1); //nuke knick knack
+    }
+
+
 void GATE_FIXES(int GameLogic, int InGate, int UnitPowerUp, int UnitControlled, int UnitFrozen, int IsAnyoneRabidAmok, int IsAnyoneUsingEquity) {
     if (*(char*)(InGate)) { //check if in gate
         if (*(int*)(UnitPowerUp+*(int*)(UnitControlled)*0x4A0) == 124) WriteValue<char>(IsAnyoneRabidAmok, 0); //Rabid amok softlock fix
@@ -382,17 +397,21 @@ void OBJECT_FIXES(int GameLogic, int InGate, int UnitPowerUp, int UnitControlled
     GATE_FIXES(GameLogic, InGate, UnitPowerUp, UnitControlled, UnitFrozen, IsAnyoneRabidAmok, IsAnyoneUsingEquity);
 }
 
-void WEAPON_FIXES(int WeaponTemplate) {
+void WEAPON_FIXES(int WeaponTemplate, bool Disable_Weapon_Screen_Flashes, bool Disable_Explosion_Screen_Shaking) {
     if (*(int*)(WeaponTemplate)) {
         if (
-            !(*(char*)(*(int*)(WeaponTemplate)+0x1D0*46+0x7B) == 3) ||
-            !(*(char*)(*(int*)(WeaponTemplate)+0x1D0*50+0x1AC) == 3) ||
-            !(*(char*)(*(int*)(WeaponTemplate)+0x1D0*65+0x31) == 1)
-        )
-        std::cout << "Fixing weapon behaviours..." << std::endl;
-        WriteValue<char>(*(int*)(WeaponTemplate)+0x1D0*46+0x7B, 3); // ticking briefcase, fix lack of collision with characters
-        WriteValue<char>(*(int*)(WeaponTemplate)+0x1D0*50+0x1AC, 3); // casserole, fix swinging being silent
-        WriteValue<char>(*(int*)(WeaponTemplate)+0x1D0*65+0x31, 1); // ultrasonic grenade, fix the oddity of not being able to change ttl like other grenades
+            !(*(char*)(*(int*)(WeaponTemplate)+0x5360+0x7B) == 3) ||
+            !(*(char*)(*(int*)(WeaponTemplate)+0x5AA0+0x1AC) == 3) ||
+            !(*(char*)(*(int*)(WeaponTemplate)+0x75D0+0x31) == 1) ||
+            !(*(char*)(*(int*)(WeaponTemplate)+0x7060+0x31) == 1)
+        ) {
+            std::cout << "Fixing weapon behaviours..." << std::endl;
+            WriteValue<char>(*(int*)(WeaponTemplate)+0x5360+0x7B, 3); // ticking briefcase, fix lack of collision with characters
+            WriteValue<char>(*(int*)(WeaponTemplate)+0x5AA0+0x1AC, 3); // casserole, fix swinging being silent
+            WriteValue<char>(*(int*)(WeaponTemplate)+0x75D0+0x31, 1); // ultrasonic grenade, consistency fix of not being able to change ttl like other grenades
+            WriteValue<char>(*(int*)(WeaponTemplate)+0x7060+0x31, 1); // Nuke Knick Knack, consistency fix of not being able to change ttl like other bombs
+            DISABLE_SHAKING_EPILEPSY(WeaponTemplate, Disable_Weapon_Screen_Flashes, Disable_Explosion_Screen_Shaking); 
+        }
     }
 }
 
@@ -552,7 +571,7 @@ void KEYBIND_REMAP() {
     }
 }
 
-void LOOP() {
+void LOOP(bool Disable_Weapon_Screen_Flashes, bool Disable_Explosion_Screen_Shaking) {
     int WeaponTemplate = *(int*)(GetPattern("\x8B\x0D\x00\x00\x00\x00\x8B\x54\x08\x2C\x83\xC4\x04\x83\xFA\x02\x0F", "xx????xxxxxxxxxxx")+2);
     int ObjectTemplate = *(int*)(GetPattern("\x8B\x0D\x00\x00\x00\x00\xC1\xE0\x08\x8B\x54", "xx????xxxxx")+2);
     int IsAnyoneUsingEquity = *(int*)(GetPattern("\x38\x1D\x00\x00\x00\x00\x75\x09", "xx????xx")+2);
@@ -576,7 +595,7 @@ void LOOP() {
         WriteValue<float>(LowCharFramerateAnimDist, (!((*(char *)(GameSaveSettings) >> 3) & 1) & ((*(char *)(GameSaveSettings) >> 4) & 1)) ? 128:64); //change distance from which characters are animated at lower framerate on high settings
         if (*(char*)(UnitCount)) { //check if game started by checking whether there is atleast one character
             OBJECT_FIXES(GameLogic, InGate, UnitPowerUp, UnitControlled, UnitFrozen, IsAnyoneRabidAmok, IsAnyoneUsingEquity, ObjectTemplate);
-            WEAPON_FIXES(WeaponTemplate);
+            WEAPON_FIXES(WeaponTemplate, Disable_Weapon_Screen_Flashes, Disable_Explosion_Screen_Shaking);
             HIDE_HUD(HideHud);
         }
     }
@@ -592,7 +611,7 @@ DWORD WINAPI Init(LPVOID lpParameter) {
     MULTIPLAYER_PATCHES();
     MISC_PATCHES();
     KEYBIND_REMAP();
-    LOOP();
+    LOOP(std::atoi(ini.GetValue("ACCESIBILITY", "DisableWeaponScreenFlashes")),std::atoi(ini.GetValue("ACCESIBILITY", "DisableExplosionScreenShaking")));
     return 0;
 }
 
